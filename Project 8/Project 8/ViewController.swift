@@ -146,11 +146,18 @@ class ViewController: UIViewController {
     
     @objc private func letterBtnTapped(_ sender: UIButton) {
         guard let buttonTitle = sender.titleLabel?.text else { return }
+        sender.isHighlighted = false
         
         currentAnswer.text = currentAnswer.text?.appending(buttonTitle)
         
         hiddenButtons.append(sender)
-        sender.isHidden = true
+        UIView.animate(withDuration: 0.5) {
+            sender.alpha = 0
+        }
+    }
+    
+    @objc private func letterBtnTouchDown(_ sender: UIButton) {
+        sender.isHighlighted = false
     }
     
     @objc private func submitBtnTapped(_ sender: UIButton) {
@@ -192,7 +199,7 @@ class ViewController: UIViewController {
         solutions.removeAll(keepingCapacity: true)
         
         for button in letterButtons {
-            button.isHidden = false
+            button.alpha = 1
         }
         
         loadLevel()
@@ -201,8 +208,10 @@ class ViewController: UIViewController {
     @objc private func clearBtnTapped(_ sender: UIButton) {
         currentAnswer.text = ""
         
-        for button in hiddenButtons {
-            button.isHidden = false
+        UIView.animate(withDuration: 0.5) {
+            for button in self.hiddenButtons {
+                button.alpha = 1
+            }
         }
         
         hiddenButtons.removeAll()
@@ -271,6 +280,7 @@ class ViewController: UIViewController {
                 letterButton.titleLabel?.font = UIFont.systemFont(ofSize: 36)
                 letterButton.setTitle("WWW", for: .normal)
                 letterButton.addTarget(self, action: #selector(letterBtnTapped), for: .touchUpInside)
+                letterButton.addTarget(self, action: #selector(letterBtnTouchDown), for: .touchDown)
                 letterButton.frame  = CGRect(x: column * width, y: row * height, width: width, height: height)
                 
                 buttonsView.addSubview(letterButton)

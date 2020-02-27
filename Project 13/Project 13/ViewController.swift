@@ -72,7 +72,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // MARK: - UIImagePickerControllerDelegate methods
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
-        dismiss(animated: true)
+        dismiss(animated: true) { [weak self] in
+            UIView.animate(withDuration: 0.25) {
+                self?.imageView.alpha = 1
+            }
+        }
         currentImage = image
         
         let beginImage = CIImage(image: currentImage)
@@ -110,6 +114,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
             imageView.image = UIImage(cgImage: cgImage)
+            imageView.alpha = 0
         }
     }
     
