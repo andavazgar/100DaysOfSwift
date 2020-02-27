@@ -1,0 +1,51 @@
+[
+    {
+        "name": "Brazil",
+        "flag": "brazil",
+        "capital": "Brasilia",
+        "area": 8515767,
+        "population": 210147125
+    },
+    {
+        "name": "Canada",
+        "flag": "canada",
+        "capital": "Ottawa",
+        "area": 9984670,
+        "population": 37797496
+    },
+    {
+        "name": "France",
+        "flag": "france",
+        "capital": "Paris",
+        "area": 640679,
+        "population": 67022000
+    },
+    {
+        "name": "Italy",
+        "flag": "italy",
+        "capital": "Rome",
+        "area": 301340,
+        "population": 60359546
+    },
+    {
+        "name": "Portugal",
+        "flag": "portugal",
+        "capital": "Lisbon",
+        "area": 92212,
+        "population": 10276617
+    },
+    {
+        "name": "Spain",
+        "flag": "spain",
+        "capital": "Madrid",
+        "area": 505990,
+        "population": 46733038
+    },
+    {
+        "name": "US",
+        "flag": "us",
+        "capital": "Washington, D.C.",
+        "area": 9833520,
+        "population": 328239523
+    }
+]
