@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		53294070240C233600943B8F /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329406F240C233600943B8F /* Target.swift */; };
 		539E6D85240B6AFC00FF6970 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E6D84240B6AFC00FF6970 /* AppDelegate.swift */; };
 		539E6D87240B6AFC00FF6970 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 539E6D86240B6AFC00FF6970 /* GameScene.sks */; };
 		539E6D8B240B6AFC00FF6970 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E6D8A240B6AFC00FF6970 /* GameScene.swift */; };
@@ -14,12 +15,11 @@
 		539E6D90240B6AFC00FF6970 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 539E6D8E240B6AFC00FF6970 /* Main.storyboard */; };
 		539E6D92240B6AFD00FF6970 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 539E6D91240B6AFD00FF6970 /* Assets.xcassets */; };
 		539E6D95240B6AFD00FF6970 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 539E6D93240B6AFD00FF6970 /* LaunchScreen.storyboard */; };
-		539E6D9F240B6BC100FF6970 /* empty.wav in Resources */ = {isa = PBXBuildFile; fileRef = 539E6D9C240B6BC100FF6970 /* empty.wav */; };
-		539E6DA0240B6BC100FF6970 /* reload.wav in Resources */ = {isa = PBXBuildFile; fileRef = 539E6D9D240B6BC100FF6970 /* reload.wav */; };
 		539E6DA1240B6BC100FF6970 /* shot.wav in Resources */ = {isa = PBXBuildFile; fileRef = 539E6D9E240B6BC100FF6970 /* shot.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5329406F240C233600943B8F /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
 		539E6D81240B6AFC00FF6970 /* Milestone 6.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Milestone 6.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		539E6D84240B6AFC00FF6970 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		539E6D86240B6AFC00FF6970 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -29,8 +29,6 @@
 		539E6D91240B6AFD00FF6970 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		539E6D94240B6AFD00FF6970 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		539E6D96240B6AFD00FF6970 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		539E6D9C240B6BC100FF6970 /* empty.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = empty.wav; sourceTree = "<group>"; };
-		539E6D9D240B6BC100FF6970 /* reload.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = reload.wav; sourceTree = "<group>"; };
 		539E6D9E240B6BC100FF6970 /* shot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shot.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,13 +65,12 @@
 				539E6D84240B6AFC00FF6970 /* AppDelegate.swift */,
 				539E6D86240B6AFC00FF6970 /* GameScene.sks */,
 				539E6D8A240B6AFC00FF6970 /* GameScene.swift */,
+				5329406F240C233600943B8F /* Target.swift */,
 				539E6D8C240B6AFC00FF6970 /* GameViewController.swift */,
 				539E6D8E240B6AFC00FF6970 /* Main.storyboard */,
 				539E6D91240B6AFD00FF6970 /* Assets.xcassets */,
 				539E6D93240B6AFD00FF6970 /* LaunchScreen.storyboard */,
 				539E6D96240B6AFD00FF6970 /* Info.plist */,
-				539E6D9C240B6BC100FF6970 /* empty.wav */,
-				539E6D9D240B6BC100FF6970 /* reload.wav */,
 				539E6D9E240B6BC100FF6970 /* shot.wav */,
 			);
 			path = "Milestone 6";
@@ -140,10 +137,8 @@
 				539E6D90240B6AFC00FF6970 /* Main.storyboard in Resources */,
 				539E6D87240B6AFC00FF6970 /* GameScene.sks in Resources */,
 				539E6D92240B6AFD00FF6970 /* Assets.xcassets in Resources */,
-				539E6D9F240B6BC100FF6970 /* empty.wav in Resources */,
 				539E6DA1240B6BC100FF6970 /* shot.wav in Resources */,
 				539E6D95240B6AFD00FF6970 /* LaunchScreen.storyboard in Resources */,
-				539E6DA0240B6BC100FF6970 /* reload.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +151,7 @@
 			files = (
 				539E6D8B240B6AFC00FF6970 /* GameScene.swift in Sources */,
 				539E6D8D240B6AFC00FF6970 /* GameViewController.swift in Sources */,
+				53294070240C233600943B8F /* Target.swift in Sources */,
 				539E6D85240B6AFC00FF6970 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
