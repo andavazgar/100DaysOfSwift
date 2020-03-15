@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func redrawBtnTapped(_ sender: UIButton) {
-        currentDrawType = (currentDrawType + 1) % 6
+        currentDrawType = (currentDrawType + 1) % 7
         
         switch currentDrawType {
         case 0:
@@ -31,9 +31,11 @@ class ViewController: UIViewController {
         case 3:
             drawRotatedSquares()
         case 4:
-            break
+            drawLines()
         case 5:
-            break
+            drawImagesAndText()
+        case 6:
+            drawStar()
         default:
             break
         }
@@ -131,6 +133,54 @@ class ViewController: UIViewController {
             
             context.cgContext.setStrokeColor(UIColor.black.cgColor)
             context.cgContext.strokePath()
+        }
+        
+        imageView.image = image
+    }
+    
+    private func drawImagesAndText() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        let image = renderer.image { context in
+            let string = "The best-laid schemes o'\nmice an' men gang aft agley"
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            let attrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.preferredFont(forTextStyle: .title1),
+                NSAttributedString.Key.paragraphStyle: paragraphStyle
+            ]
+            let attrString = NSAttributedString(string: string, attributes: attrs)
+            
+            attrString.draw(with: CGRect(x: 32, y: 32, width: 448, height: 448), options: .usesLineFragmentOrigin, context: nil)
+            
+            
+            let image = UIImage(named: "mouse")
+            image?.draw(at: CGPoint(x: 300, y: 150))
+        }
+        
+        imageView.image = image
+    }
+    
+    private func drawStar() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        let image = renderer.image { context in
+            context.cgContext.translateBy(x: 256, y: 256)
+            
+            var isFirstPoint = true
+            
+            for _ in 0 ..< 5 {
+                if isFirstPoint {
+                    context.cgContext.move(to: CGPoint(x: 93, y: 128))
+                    isFirstPoint = false
+                }
+                context.cgContext.addLine(to: CGPoint(x: 0, y: 256))
+                context.cgContext.addLine(to: CGPoint(x: -93, y: 128))
+                
+                context.cgContext.rotate(by: 2 * .pi / 5)
+            }
+            
+            context.cgContext.setStrokeColor(UIColor.black.cgColor)
+            context.cgContext.setFillColor(UIColor.systemYellow.cgColor)
+            context.cgContext.drawPath(using: .fillStroke)
         }
         
         imageView.image = image
