@@ -167,6 +167,9 @@ class ViewController: UIViewController {
             
             var isFirstPoint = true
             
+            // This is needed to make the star point to the top
+            context.cgContext.rotate(by: .pi / 5)
+            
             for _ in 0 ..< 5 {
                 if isFirstPoint {
                     context.cgContext.move(to: CGPoint(x: 93, y: 128))
