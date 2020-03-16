@@ -116,26 +116,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 .paragraphStyle: paragraphStyle
             ]
             
+            let sizeForCaption = CGSize(width: imageView.frame.width, height: .greatestFiniteMagnitude)
+            
             if let topCaption = topCaption {
                 let topCaptionAS = NSAttributedString(string: topCaption, attributes: captionAttrs)
-                let heightNeeded = computeTextHeight(for: topCaption, attributes: captionAttrs, width: imageView.frame.width)
+                let boundingRect = topCaptionAS.boundingRect(with: sizeForCaption, options: [.usesLineFragmentOrigin, .truncatesLastVisibleLine], context: nil)
+                let heightNeeded = ceil(boundingRect.height)
                 topCaptionAS.draw(with: CGRect(x: 5, y: 5, width: imageView.frame.width, height: heightNeeded), options: [.usesLineFragmentOrigin, .truncatesLastVisibleLine], context: nil)
             }
             
             if let bottomCaption = bottomCaption {
                 let bottomCaptionAS = NSAttributedString(string: bottomCaption, attributes: captionAttrs)
-                let heightNeeded = computeTextHeight(for: bottomCaption, attributes: captionAttrs, width: imageView.frame.width)
+                let boundingRect = bottomCaptionAS.boundingRect(with: sizeForCaption, options: [.usesLineFragmentOrigin, .truncatesLastVisibleLine], context: nil)
+                let heightNeeded = ceil(boundingRect.height)
+                
                 bottomCaptionAS.draw(with: CGRect(x: 5, y: imageView.frame.height - heightNeeded - 5, width: imageView.frame.width, height: heightNeeded), options: [.usesLineFragmentOrigin, .truncatesLastVisibleLine], context: nil)
             }
         }
-    }
-    
-    private func computeTextHeight(for text: String, attributes: [NSAttributedString.Key : Any], width: CGFloat) -> CGFloat {
-        let nsText = NSString(string: text)
-        let size = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let textRect = nsText.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-
-        return ceil(textRect.size.height)
     }
 }
 
