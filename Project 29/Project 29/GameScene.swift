@@ -18,8 +18,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var buildings = [BuildingNode]()
     weak var viewController: GameViewController?
     
-    var player1: SKSpriteNode!
-    var player2: SKSpriteNode!
+    var player1: MonkeyNode!
+    var player2: MonkeyNode!
     var banana: SKSpriteNode!
     
     var currentPlayer = 1
@@ -96,69 +96,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             banana = nil
         }
         
-        banana = SKSpriteNode(imageNamed: "banana")
+        banana = MonkeyNode.createBanana()
         banana.name = "banana"
-        banana.physicsBody = SKPhysicsBody(circleOfRadius: banana.size.width / 2)
-        banana.physicsBody?.categoryBitMask = CollisionType.banana.rawValue
-        banana.physicsBody?.collisionBitMask = CollisionType.building.rawValue | CollisionType.player.rawValue
-        banana.physicsBody?.contactTestBitMask = CollisionType.building.rawValue | CollisionType.player.rawValue
-        banana.physicsBody?.usesPreciseCollisionDetection = true
         addChild(banana)
         
         if currentPlayer == 1 {
-            banana.position = CGPoint(x: player1.position.x - 30, y: player1.position.y + 40)
-            banana.physicsBody?.angularVelocity = -20
-            
-            player1.run(.sequence([
-                .setTexture(SKTexture(imageNamed: "player1Throw")),
-                .wait(forDuration: 0.15),
-                .setTexture(SKTexture(imageNamed: "player"))
-            ]))
-            
             let impulse = CGVector(dx: cos(radians) * speed, dy: sin(radians) * speed)
-            banana.physicsBody?.applyImpulse(impulse)
+            player1.throw(banana, toThe: .right, withImpulse: impulse)
         } else {
-            banana.position = CGPoint(x: player2.position.x + 30, y: player2.position.y + 40)
-            banana.physicsBody?.angularVelocity = +20
-            
-            player2.run(.sequence([
-                .setTexture(SKTexture(imageNamed: "player2Throw")),
-                .wait(forDuration: 0.15),
-                .setTexture(SKTexture(imageNamed: "player"))
-            ]))
-            
             let impulse = CGVector(dx: -cos(radians) * speed, dy: sin(radians) * speed)
-            banana.physicsBody?.applyImpulse(impulse)
+            player2.throw(banana, toThe: .left, withImpulse: impulse)
         }
     }
     
     private func createPlayers() {
         // Player 1
-        player1 = SKSpriteNode(imageNamed: "player")
+        player1 = MonkeyNode()
         player1.name = "player1"
         
         let player1Building = buildings[1]
-        player1.position = CGPoint(x: player1Building.position.x, y: player1Building.size.height + player1.size.height / 2)
         
-        player1.physicsBody = SKPhysicsBody(circleOfRadius: player1.size.width / 2)
-        player1.physicsBody?.isDynamic = false
-        player1.physicsBody?.categoryBitMask = CollisionType.player.rawValue
-        player1.physicsBody?.collisionBitMask = CollisionType.banana.rawValue
-        player1.physicsBody?.contactTestBitMask = CollisionType.banana.rawValue
+        player1.setup(onTopOf: player1Building)
         addChild(player1)
         
         // Player 2
-        player2 = SKSpriteNode(imageNamed: "player")
+        player2 = MonkeyNode()
         player2.name = "player2"
         
         let player2Building = buildings[buildings.count - 2]
-        player2.position = CGPoint(x: player2Building.position.x, y: player2Building.size.height + player2.size.height / 2)
         
-        player2.physicsBody = SKPhysicsBody(circleOfRadius: player2.size.width / 2)
-        player2.physicsBody?.isDynamic = false
-        player2.physicsBody?.categoryBitMask = CollisionType.player.rawValue
-        player2.physicsBody?.collisionBitMask = CollisionType.banana.rawValue
-        player2.physicsBody?.contactTestBitMask = CollisionType.banana.rawValue
+        player2.setup(onTopOf: player2Building)
         addChild(player2)
     }
     
@@ -200,6 +167,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             self.changePlayer()
             newGame.currentPlayer = self.currentPlayer
+            newGame.viewController?.setDefaultValues()
             
             let transition = SKTransition.doorway(withDuration: 1.5)
             self.view?.presentScene(newGame, transition: transition)
