@@ -72,6 +72,12 @@ class GameViewController: UIViewController {
     
     @IBAction func angleChanged(_ sender: Any) {
         angleLabel.text = "Angle: \(Int(angleSlider.value))°"
+        
+        if currentPlayer == 1 {
+            currentGame?.player1.setRotation(to: angleSlider.value, withThrowingDirection: .right)
+        } else {
+            currentGame?.player2.setRotation(to: angleSlider.value, withThrowingDirection: .left)
+        }
     }
     
     @IBAction func velocityChanged(_ sender: Any) {
@@ -114,6 +120,7 @@ class GameViewController: UIViewController {
         
         if elapsedTime > animationDuration {
             animationDisplayLink.invalidate()
+            
             angleSlider.value = (currentPlayer == 1 ? player1Values["angle"] : player2Values["angle"]) ?? 0
             velocitySlider.value = (currentPlayer == 1 ? player1Values["velocity"] : player2Values["velocity"]) ?? 0
             angleChanged(self)

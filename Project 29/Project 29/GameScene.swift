@@ -117,6 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let player1Building = buildings[1]
         
         player1.setup(onTopOf: player1Building)
+        player1.arrow.isHidden = false
         addChild(player1)
         
         // Player 2
@@ -176,6 +177,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func changePlayer() {
         currentPlayer = (currentPlayer == 1) ? 2 : 1
+        
+        if currentPlayer == 1 {
+            player1.arrow.isHidden = false
+            player2.arrow.isHidden = true
+        } else {
+            player1.arrow.isHidden = true
+            player2.arrow.isHidden = false
+        }
         
         viewController?.activatePlayer(number: currentPlayer)
     }

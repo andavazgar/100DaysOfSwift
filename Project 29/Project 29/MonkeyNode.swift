@@ -15,11 +15,13 @@ enum ThrowDirection {
 
 class MonkeyNode: SKSpriteNode {
     private var monkey: SKSpriteNode!
-    
+    var arrow: SKSpriteNode!
+    private var arrowImage: UIImage!
     
     func setup(onTopOf building: BuildingNode) {
         monkey = SKSpriteNode(imageNamed: "player")
         monkey.position = CGPoint(x: building.position.x, y: building.size.height + monkey.size.height / 2)
+        monkey.zPosition = 1
         
         monkey.physicsBody = SKPhysicsBody(circleOfRadius: monkey.size.width / 2)
         monkey.physicsBody?.isDynamic = false
@@ -27,6 +29,8 @@ class MonkeyNode: SKSpriteNode {
         monkey.physicsBody?.collisionBitMask = CollisionType.banana.rawValue
         monkey.physicsBody?.contactTestBitMask = CollisionType.banana.rawValue
         addChild(monkey)
+        
+        createArrow()
     }
     
     func `throw`(_ banana: SKSpriteNode, toThe direction: ThrowDirection, withImpulse impulse: CGVector) {
@@ -63,5 +67,52 @@ class MonkeyNode: SKSpriteNode {
         banana.physicsBody?.usesPreciseCollisionDetection = true
         
         return banana
+    }
+    
+    private func createArrow() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 192, height: 192))
+        arrowImage = renderer.image { context in
+            UIColor.black.setFill()
+            
+            // Arrow body
+            context.cgContext.fill(CGRect(x: 146, y: 88, width: 40, height: 16))
+            
+            // Arrow head
+            context.cgContext.move(to: CGPoint(x: 172, y: 76))
+            context.cgContext.addLine(to: CGPoint(x: 172, y: 116))
+            context.cgContext.addLine(to: CGPoint(x: 192, y: 96))
+            context.cgContext.addLine(to: CGPoint(x: 172, y: 76))
+            context.cgContext.drawPath(using: .fill)
+        }
+        
+        arrow = SKSpriteNode(texture: SKTexture(image: arrowImage))
+        arrow.position = monkey.position
+        arrow.zPosition = 1
+        arrow.isHidden = true
+        addChild(arrow)
+        
+        arrow.run(.repeatForever(.sequence([
+            .fadeOut(withDuration: 1),
+            .fadeIn(withDuration: 0)
+        ])))
+    }
+    
+    func setRotation(to angle: Float, withThrowingDirection throwingDirection: ThrowDirection) {
+        let radians: CGFloat
+        
+        if throwingDirection == .right {
+            radians = CGFloat(-angle * Float.pi / 180)
+        } else {
+            radians = CGFloat((angle + 180) * Float.pi / 180)
+        }
+        
+        let renderer = UIGraphicsImageRenderer(size: arrowImage.size)
+        let rotatedArrowImage = renderer.image { context in
+            context.cgContext.translateBy(x: arrowImage.size.width / 2, y: arrowImage.size.height / 2)
+            context.cgContext.rotate(by: radians)
+            arrowImage.draw(at: CGPoint(x: -arrowImage.size.width / 2, y: -arrowImage.size.height / 2))
+        }
+        
+        arrow.texture = SKTexture(image: rotatedArrowImage)
     }
 }
