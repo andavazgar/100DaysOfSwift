@@ -16,7 +16,10 @@ enum ThrowDirection {
 class MonkeyNode: SKSpriteNode {
     private var monkey: SKSpriteNode!
     var arrow: SKSpriteNode!
-    private var arrowImage: UIImage!
+    private let arrowCanvasSize = 192 * 2
+    private var arrowImage: UIImage!        // Image of only the arrow [Size: 50 x 40]
+    private var rotatedImage: UIImage?      // Image of arrow in canvas (rotated) [Size: 384 x 384]
+    private var stretchedImage: UIImage?    // Image of arrow in canvas (stretched) [Size: 384 x 384]
     
     func setup(onTopOf building: BuildingNode) {
         monkey = SKSpriteNode(imageNamed: "player")
@@ -70,22 +73,30 @@ class MonkeyNode: SKSpriteNode {
     }
     
     private func createArrow() {
-        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 192, height: 192))
+        var renderer = UIGraphicsImageRenderer(size: CGSize(width: 50, height: 40))
         arrowImage = renderer.image { context in
             UIColor.black.setFill()
             
             // Arrow body
-            context.cgContext.fill(CGRect(x: 146, y: 88, width: 40, height: 16))
+            context.cgContext.fill(CGRect(x: 0, y: 10, width: 40, height: 20))
             
             // Arrow head
-            context.cgContext.move(to: CGPoint(x: 172, y: 76))
-            context.cgContext.addLine(to: CGPoint(x: 172, y: 116))
-            context.cgContext.addLine(to: CGPoint(x: 192, y: 96))
-            context.cgContext.addLine(to: CGPoint(x: 172, y: 76))
+            context.cgContext.move(to: CGPoint(x: 30, y: 0))
+            context.cgContext.addLine(to: CGPoint(x: 30, y: 40))
+            context.cgContext.addLine(to: CGPoint(x: 50, y: 20))
+            context.cgContext.addLine(to: CGPoint(x: 30, y: 0))
             context.cgContext.drawPath(using: .fill)
         }
         
-        arrow = SKSpriteNode(texture: SKTexture(image: arrowImage))
+        renderer = UIGraphicsImageRenderer(size: CGSize(width: arrowCanvasSize, height: arrowCanvasSize))
+        let canvasWithArrow = renderer.image { context in
+            // Move origin to center
+            context.cgContext.translateBy(x: CGFloat(arrowCanvasSize / 2), y: CGFloat(arrowCanvasSize / 2))
+            
+            arrowImage.draw(at: CGPoint(x: 46, y: -20))
+        }
+        
+        arrow = SKSpriteNode(texture: SKTexture(image: canvasWithArrow))
         arrow.position = monkey.position
         arrow.zPosition = 1
         arrow.isHidden = true
@@ -97,20 +108,27 @@ class MonkeyNode: SKSpriteNode {
         ])))
     }
     
-    func setRotation(to angle: Float, withThrowingDirection throwingDirection: ThrowDirection) {
+    func transformArrow(withRotationAngle rotationAngle: Float, velocity: Float, throwingDirection: ThrowDirection) {
         let radians: CGFloat
         
         if throwingDirection == .right {
-            radians = CGFloat(-angle * Float.pi / 180)
+            radians = CGFloat(-rotationAngle * Float.pi / 180)
         } else {
-            radians = CGFloat((angle + 180) * Float.pi / 180)
+            radians = CGFloat((rotationAngle + 180) * Float.pi / 180)
         }
         
-        let renderer = UIGraphicsImageRenderer(size: arrowImage.size)
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: arrowCanvasSize, height: arrowCanvasSize))
         let rotatedArrowImage = renderer.image { context in
-            context.cgContext.translateBy(x: arrowImage.size.width / 2, y: arrowImage.size.height / 2)
+            // Move origin to center
+            context.cgContext.translateBy(x: CGFloat(arrowCanvasSize / 2), y: CGFloat(arrowCanvasSize / 2))
+            
+            // Rotation
             context.cgContext.rotate(by: radians)
-            arrowImage.draw(at: CGPoint(x: -arrowImage.size.width / 2, y: -arrowImage.size.height / 2))
+            
+            // Stretch
+            let imageWidth = arrowImage.size.width + CGFloat(velocity / 250) * arrowImage.size.width
+            let imageHeight = arrowImage.size.height + CGFloat(velocity / 250) * arrowImage.size.height
+            arrowImage.draw(in: CGRect(x: 46, y: -imageHeight / 2, width: imageWidth, height: imageHeight))
         }
         
         arrow.texture = SKTexture(image: rotatedArrowImage)

@@ -72,16 +72,12 @@ class GameViewController: UIViewController {
     
     @IBAction func angleChanged(_ sender: Any) {
         angleLabel.text = "Angle: \(Int(angleSlider.value))°"
-        
-        if currentPlayer == 1 {
-            currentGame?.player1.setRotation(to: angleSlider.value, withThrowingDirection: .right)
-        } else {
-            currentGame?.player2.setRotation(to: angleSlider.value, withThrowingDirection: .left)
-        }
+        transformThrowingArrow()
     }
     
     @IBAction func velocityChanged(_ sender: Any) {
         velocityLabel.text = "Velocity: \(Int(velocitySlider.value))"
+        transformThrowingArrow()
     }
     
     @IBAction func launch(_ sender: Any) {
@@ -115,6 +111,9 @@ class GameViewController: UIViewController {
         animationStartDate = Date()
     }
     
+    /* Animates the angle and velocity UILabels such that when the UISliders change value they are reflected by increasing or decreasing the value in the UILabel.
+        This is needed when the players change turns (activatePlayer)
+     */
     @objc private func animateAngleVelocityChanges() {
         let elapsedTime = Date().timeIntervalSince(animationStartDate)
         
@@ -153,6 +152,14 @@ class GameViewController: UIViewController {
         velocitySlider.value = initialVelocity + Float(percentageOfAnimation) * (endVelocity - initialVelocity)
         angleChanged(self)
         velocityChanged(self)
+    }
+    
+    private func transformThrowingArrow() {
+        if currentPlayer == 1 {
+            currentGame?.player1.transformArrow(withRotationAngle: angleSlider.value, velocity: velocitySlider.value, throwingDirection: .right)
+        } else {
+            currentGame?.player2.transformArrow(withRotationAngle: angleSlider.value, velocity: velocitySlider.value, throwingDirection: .left)
+        }
     }
     
     func setDefaultValues() {
