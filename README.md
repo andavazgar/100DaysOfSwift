@@ -1,14 +1,12 @@
 # 100 Days of Swift
 
-Projects from the Hacking with Swift book by Paul Hudson ([@twostraws](https://github.com/twostraws))
+Projects from the [100 Days of Swift](https://www.hackingwithswift.com/100) course by Paul Hudson ([@twostraws](https://github.com/twostraws))
 
-The book is divided into `Projects` and `Milestones`. `Projects` are meant to teach iOS cocepts, techniques and frameworks.\
-Every `3` projects, a milestone is reached. `Milestones` are challenges that use the concepts learned in the previous 3 projects. For example, after `Project 3` comes `Milestone 1`.
+The course is divided into `Projects` and `Milestones`. `Projects` are meant to teach iOS concepts, techniques and frameworks.\
+**Every 3 projects**, a milestone is reached. `Milestones` are challenges that use the concepts learned in the previous 3 projects. For example, after `Project 3` comes `Milestone 1`.
 
 
 ## Course Content
-
----
 
 ### Project 1: *[Storm Viewer](Project%201)*
 **Objective:** Get started coding in Swift by making an image viewer app and learning key concepts.
@@ -293,5 +291,3 @@ Topics covered in Projects 25-27
 Topics covered in Projects 28-30
 
 **Challenge:** Create a memory pairs game that has players find pairs of cards – it’s sometimes called Concentration, Pelmanism, or Pairs.
-
----
